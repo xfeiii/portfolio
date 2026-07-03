@@ -1,6 +1,6 @@
 (function () {
   var projects = [
-    { label: 'MAS',                 tag: 'UX/UI · Government',      file: 'mas.html' },
+    { label: 'MAS',                 tag: 'UX/UI · Government',      file: 'mas.html', protectedRoute: '/mas' },
     { label: 'Blacksmith KYC',      tag: 'SaaS · Banking',         file: 'blacksmith-kyc.html' },
     { label: 'Stone for Gold',      tag: 'Branding · Web',         file: 'stone-for-gold.html' },
     { label: 'Peaktop Engineering', tag: 'Web Design · Electrical',  file: 'peaktop-engineering.html' },
@@ -154,6 +154,22 @@
       var a = document.createElement('a');
       a.className = 'psw-item' + (p.file === current ? ' active' : '');
       a.href = p.file;
+      if (p.protectedRoute) {
+        a.href = p.protectedRoute;
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          var target = p.protectedRoute;
+          try {
+            if (window.top && window.top !== window) {
+              window.top.location.href = target;
+            } else {
+              window.location.href = target;
+            }
+          } catch (_) {
+            window.location.href = target;
+          }
+        });
+      }
 
       var left = document.createElement('div');
       left.className = 'psw-item-left';

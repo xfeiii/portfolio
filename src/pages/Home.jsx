@@ -142,6 +142,7 @@ export default function Home() {
   return (
     <div className="home-page">
       <Lightbox />
+      <div className="home-animated-bg" aria-hidden="true" />
       {/* NAV */}
       <nav id="nav" className={`${navScrolled ? 'scrolled' : ''} ${navUp ? 'up' : ''}`}>
         <a href="#" className="nav-brand">
@@ -326,10 +327,10 @@ export default function Home() {
 
       {/* WORK HISTORY */}
       <div className="sec">
-        <div className="wh-label fu">My Work History</div>
+        <div className="wh-label fu">My Experiences</div>
         <div className="wh-full">
           {workHistory.map((w, i) => (
-            <div key={i} className={`wi fu${openWork[i] ? ' open' : ''}`} style={w.delay ? { transitionDelay: w.delay } : {}} onClick={() => setOpenWork(prev => ({ ...prev, [i]: !prev[i] }))}>
+            <div key={i} className={`wi${openWork[i] ? ' open' : ''}`} style={w.delay ? { transitionDelay: w.delay } : {}} onClick={() => setOpenWork(prev => ({ ...prev, [i]: !prev[i] }))}>
               <div className="wi-top">
                 <div>
                   <div className="wco">{w.co}</div>
