@@ -42,13 +42,18 @@ const workHistory = [
   { co: 'Blacksmith KYC · ING Bank', role: 'UI/UX Designer', badge: 'Internship', date: 'Sep 2020 – Nov 2020', desc: 'Designed the end-to-end KYC onboarding experience for Blacksmith, a SaaS product under ING Bank, focused on compliance and conversion.', delay: '.2s' },
 ]
 
+const testimonials = [
+  { src: '/assets/client-steven.jpg', alt: 'Steven', name: 'Steven', role: 'SportsRelief Therapy', quote: '"Fabio\'s creative work helped us showcase our brand in a more engaging and professional way."', delay: '.05s', marginTop: 0, animDelay: '0s' },
+  { src: '/assets/client-ng.jpg', alt: 'Ng Hian Keong', name: 'Ng Hian Keong', role: 'Senior Finance Service Manager \u00b7 NHK Associates (Prudential)', quote: '"Fabio\'s social media marketing significantly improved our online engagement and brand presence."', delay: '.12s', marginTop: 36, animDelay: '.85s' },
+  { src: '/assets/client-andy.jpg', alt: 'Andy Chong', name: 'Andy Chong', role: 'CEO \u00b7 Peak Top Engineering Pte Ltd', quote: '"Fabio delivered a clean and professional landing page that made it easier for customers to reach us."', delay: '.19s', marginTop: 0, animDelay: '.4s' },
+]
+
 export default function Home() {
   useScrollReveal()
 
   const [heroWord, setHeroWord] = useState('Design')
   const [openFaq, setOpenFaq] = useState(null)
   const [openWork, setOpenWork] = useState({})
-  const [activeTestimonial, setActiveTestimonial] = useState(null)
   const [footerWord, setFooterWord] = useState('create')
   const [navScrolled, setNavScrolled] = useState(false)
   const [navUp, setNavUp] = useState(false)
@@ -277,32 +282,24 @@ export default function Home() {
           </div>
         </div>
         <div className="tbubbles">
-          {[
-            { src: '/assets/client-steven.jpg', alt: 'Steven', name: 'Steven', role: 'SportsRelief Therapy', quote: '"Fabio\'s creative work helped us showcase our brand in a more engaging and professional way."', delay: '.05s', marginTop: 0, animDelay: '0s' },
-            { src: '/assets/client-ng.jpg', alt: 'Ng Hian Keong', name: 'Ng Hian Keong', role: 'Senior Finance Service Manager · NHK Associates (Prudential)', quote: '"Fabio\'s social media marketing significantly improved our online engagement and brand presence."', delay: '.12s', marginTop: 36, animDelay: '.85s' },
-            { src: '/assets/client-andy.jpg', alt: 'Andy Chong', name: 'Andy Chong', role: 'CEO · Peak Top Engineering Pte Ltd', quote: '"Fabio delivered a clean and professional landing page that made it easier for customers to reach us."', delay: '.19s', marginTop: 0, animDelay: '.4s' },
-          ].map((t, i) => (
-            <div key={i} className={`tb-item fu${activeTestimonial === i ? ' active' : ''}`} style={{ transitionDelay: t.delay, marginTop: t.marginTop }}>
+          {testimonials.map((t, i) => (
+            <div key={i} className="tb-item">
               <div
                 className="tb-float"
-                tabIndex={0}
                 style={{ animationDelay: t.animDelay }}
-                onClick={() => setActiveTestimonial(i)}
               >
-                <div className="tb-avatar"><img src={t.src} alt={t.alt} loading="lazy" /></div>
-                <div className="tb-card">
-                  <div className="tb-card-arrow-border"></div>
-                  <div className="tb-stars">★★★★★</div>
-                  <p className="tb-quote">{t.quote}</p>
-                  <div className="tb-name">{t.name}</div>
-                  <div className="tb-role">{t.role}</div>
-                </div>
+                <span className="tb-avatar"><img src={t.src} alt={t.alt} loading="lazy" /></span>
+              </div>
+              <div className="tb-card">
+                <div className="tb-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p className="tb-quote">{t.quote}</p>
+                <div className="tb-name">{t.name}</div>
+                <div className="tb-role">{t.role}</div>
               </div>
             </div>
           ))}
         </div>
       </div>
-
       {/* SERVICES */}
       <div className="sec" id="services">
         <div className="sg">

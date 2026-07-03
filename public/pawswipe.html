@@ -151,11 +151,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:fl
   .hero-top{grid-template-columns:1fr}
   .hero-meta{min-width:auto}
   .cs-grid{grid-template-columns:1fr;gap:32px}
+  .cs-body,.cs-side-title,.stat{min-width:0;overflow-wrap:anywhere}
+  .stats-row,.stats-row[style]{grid-template-columns:1fr!important;width:100%;max-width:100%}
   .features-grid{grid-template-columns:1fr}
   .img-grid.cols2,.img-grid.cols3,.img-grid.cols4{grid-template-columns:1fr 1fr}
   .accent-band{padding:48px 20px}
-  .stats-row{grid-template-columns:1fr 1fr}
   .stat{border-bottom:1px solid var(--border)}
+  .stat,.stat[style]{border-right:none!important}
   .team-grid{grid-template-columns:repeat(3,1fr)}
   .next-proj{padding:48px 20px}
 }
