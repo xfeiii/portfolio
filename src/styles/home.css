@@ -93,6 +93,7 @@ nav.scrolled{background:rgba(255,255,255,.97);box-shadow:0 2px 28px rgba(0,0,0,.
 .pn{font-size:16px;font-weight:700;color:#fff}
 .pcat{font-size:11px;font-weight:400;letter-spacing:.03em;color:rgba(255,255,255,.72);margin-top:2px}
 .parr{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;transition:background .2s,transform .35s cubic-bezier(.22,1,.36,1),color .2s}
+.parr svg{display:block;flex-shrink:0}
 .pc:hover .parr{background:#fff;color:#000;transform:rotate(45deg) scale(1.15)}
 .view-all{text-align:center;margin-top:40px}
 .view-all a{font-size:15px;font-weight:500;color:var(--muted);text-decoration:none}
@@ -309,4 +310,157 @@ footer{background:var(--black);color:#fff;padding:100px 40px 0;overflow:hidden}
   .home-page nav{padding:16px 20px}
   .home-page .hero{grid-template-columns:1fr;padding:130px 20px 60px;gap:40px}
   .home-page .sec{padding:70px 20px}
+}
+
+@media(max-width:900px){
+  .home-page .hero-r{
+    width:100%;
+    justify-content:center;
+    padding-right:0;
+    overflow:visible;
+  }
+  .home-page .hero-cards{
+    width:min(340px,92vw);
+    height:232px;
+    margin:0 auto;
+    transform:translateX(0);
+  }
+  .home-page .hc{
+    width:205px;
+    height:130px;
+    border-radius:14px;
+  }
+  .home-page .hc:nth-child(1){left:78px;top:6px}
+  .home-page .hc:nth-child(2){left:34px;top:26px}
+  .home-page .hc:nth-child(3){left:2px;top:50px}
+  .home-page .hc:nth-child(4){left:132px;top:44px}
+
+  .home-page .parr{
+    width:32px;
+    height:32px;
+    font-size:0;
+  }
+  .home-page .parr svg{
+    width:16px;
+    height:16px;
+  }
+
+  .home-page .trusted-row{
+    justify-content:flex-start;
+    align-items:center;
+    gap:10px 12px;
+  }
+  .home-page .trusted-logo{
+    height:22px;
+  }
+  .home-page .th-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:18px;
+  }
+  .home-page .th{
+    width:100%;
+    font-size:clamp(26px,8vw,34px);
+    line-height:1.16;
+  }
+  .home-page .th br{
+    display:none;
+  }
+  .home-page .th em{
+    display:block;
+  }
+  .home-page .th-wrap>div{
+    justify-content:flex-start;
+    width:100%;
+  }
+
+  .home-page .tbubbles{
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:8px;
+    padding:28px 0 92px;
+    overflow:visible;
+  }
+  .home-page .tb-item{
+    flex:1 1 0;
+    min-width:0;
+    margin-top:0!important;
+  }
+  .home-page .tb-float{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    animation:none;
+    position:static;
+  }
+  .home-page .tb-avatar{
+    width:82px;
+    height:82px;
+    border-width:2px;
+  }
+  .home-page .tb-card{
+    position:absolute;
+    top:112px;
+    bottom:auto;
+    left:50%;
+    width:min(330px,calc(100vw - 40px));
+    padding:14px 16px;
+    transform:translateX(-50%) translateY(8px);
+    z-index:80;
+  }
+  .home-page .tb-float:hover .tb-card,
+  .home-page .tb-float:focus-within .tb-card,
+  .home-page .tb-float:active .tb-card,
+  .home-page .tb-item.active .tb-card{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+    pointer-events:auto;
+  }
+  .home-page .tb-card::after{
+    top:auto;
+    bottom:100%;
+    border-top-color:transparent;
+    border-bottom-color:#fff;
+  }
+  .home-page .tb-card-arrow-border{
+    display:none;
+  }
+
+  .home-page .wi{
+    padding:18px 16px;
+  }
+  .home-page .wi-top{
+    align-items:flex-start;
+    gap:12px;
+  }
+  .home-page .wi-top>div:first-child{
+    min-width:0;
+    flex:1;
+  }
+  .home-page .wco,
+  .home-page .wro{
+    overflow-wrap:anywhere;
+  }
+  .home-page .wro{
+    line-height:1.45;
+  }
+  .home-page .wbadge{
+    display:inline-flex;
+    margin-left:0;
+    margin-top:6px;
+  }
+  .home-page .wi-top>div:last-child{
+    flex-shrink:0;
+    flex-direction:column;
+    align-items:flex-end!important;
+    gap:8px!important;
+  }
+  .home-page .wda{
+    text-align:right;
+    max-width:96px;
+    line-height:1.35;
+  }
 }

@@ -48,6 +48,7 @@ export default function Home() {
   const [heroWord, setHeroWord] = useState('Design')
   const [openFaq, setOpenFaq] = useState(null)
   const [openWork, setOpenWork] = useState({})
+  const [activeTestimonial, setActiveTestimonial] = useState(null)
   const [footerWord, setFooterWord] = useState('create')
   const [navScrolled, setNavScrolled] = useState(false)
   const [navUp, setNavUp] = useState(false)
@@ -228,7 +229,11 @@ export default function Home() {
               <div className="pt"><img src={p.img} className="pc-img" alt={p.name} /></div>
               <div className="po">
                 <div><div className="pn">{p.name}</div><div className="pcat">{p.cat}</div></div>
-                <div className="parr">↗</div>
+                <div className="parr" aria-hidden="true">
+                  <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 12L12 4M6 4h6v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
               </div>
             </Link>
           ))}
@@ -238,7 +243,11 @@ export default function Home() {
             </div>
             <div className="po">
               <div><div className="pn">PawSwipe</div><div className="pcat">Mobile App · Product Design</div></div>
-              <div className="parr">↗</div>
+              <div className="parr" aria-hidden="true">
+                <svg width="17" height="17" viewBox="0 0 16 16" fill="none">
+                  <path d="M4 12L12 4M6 4h6v6" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
             </div>
           </Link>
         </div>
@@ -273,8 +282,13 @@ export default function Home() {
             { src: '/assets/client-ng.jpg', alt: 'Ng Hian Keong', name: 'Ng Hian Keong', role: 'Senior Finance Service Manager · NHK Associates (Prudential)', quote: '"Fabio\'s social media marketing significantly improved our online engagement and brand presence."', delay: '.12s', marginTop: 36, animDelay: '.85s' },
             { src: '/assets/client-andy.jpg', alt: 'Andy Chong', name: 'Andy Chong', role: 'CEO · Peak Top Engineering Pte Ltd', quote: '"Fabio delivered a clean and professional landing page that made it easier for customers to reach us."', delay: '.19s', marginTop: 0, animDelay: '.4s' },
           ].map((t, i) => (
-            <div key={i} className="tb-item fu" style={{ transitionDelay: t.delay, marginTop: t.marginTop }}>
-              <div className="tb-float" style={{ animationDelay: t.animDelay }}>
+            <div key={i} className={`tb-item fu${activeTestimonial === i ? ' active' : ''}`} style={{ transitionDelay: t.delay, marginTop: t.marginTop }}>
+              <div
+                className="tb-float"
+                tabIndex={0}
+                style={{ animationDelay: t.animDelay }}
+                onClick={() => setActiveTestimonial(activeTestimonial === i ? null : i)}
+              >
                 <div className="tb-avatar"><img src={t.src} alt={t.alt} loading="lazy" /></div>
                 <div className="tb-card">
                   <div className="tb-card-arrow-border"></div>
