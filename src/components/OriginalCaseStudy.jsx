@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ROUTES = {
   'index.html': '/',
@@ -12,6 +13,8 @@ const ROUTES = {
 }
 
 export default function OriginalCaseStudy({ src, title }) {
+  const navigate = useNavigate()
+
   useEffect(() => {
     window.scrollTo(0, 0)
     document.body.style.overflow = 'hidden'
@@ -34,19 +37,21 @@ export default function OriginalCaseStudy({ src, title }) {
 
       link.addEventListener('click', (clickEvent) => {
         clickEvent.preventDefault()
-        window.location.href = route
+        navigate(route)
       })
     })
   }
 
   return (
     <iframe
+      key={src}
       src={src}
       title={title}
       onLoad={wireLinks}
       style={{
         display: 'block',
-        width: '100vw',
+        width: '100%',
+        maxWidth: '100%',
         height: '100vh',
         border: 0,
         background: '#fff',

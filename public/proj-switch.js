@@ -3,17 +3,39 @@
     { label: 'MAS',                 tag: 'UX/UI · Government',      file: 'mas.html', protectedRoute: '/mas' },
     { label: 'Blacksmith KYC',      tag: 'SaaS · Banking',         file: 'blacksmith-kyc.html' },
     { label: 'Stone for Gold',      tag: 'Branding · Web',         file: 'stone-for-gold.html' },
-    { label: 'Peaktop Engineering', tag: 'Web Design · Electrical',  file: 'peaktop-engineering.html' },
+    { label: 'PeakTop Engineering', tag: 'Web Design · Electrical',  file: 'peaktop-engineering.html' },
     { label: 'MyPassion App',       tag: 'Mobile · UX',            file: 'mypassion-app.html' },
     { label: 'PawSwipe',            tag: 'Mobile · Product',       file: 'pawswipe.html' },
     { label: 'Prudential',          tag: 'Insurance · Social Media', file: 'prudential.html' },
   ];
 
-  var current = window.location.pathname.split('/').pop();
+  function getCurrentFile() {
+    var currentFile = window.location.pathname.split('/').pop();
+    if (currentFile) return currentFile;
+    try {
+      var frameSrc = window.frameElement && window.frameElement.getAttribute('src');
+      if (frameSrc) return frameSrc.split('/').pop().split('?')[0].split('#')[0];
+    } catch (_) {}
+    return '';
+  }
+
+  var current = getCurrentFile();
   var active = projects.find(function(p){ return p.file === current; }) || projects[0];
 
   var style = document.createElement('style');
   style.textContent = `
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+    }
+    img,
+    video,
+    iframe,
+    canvas {
+      max-width: 100%;
+    }
     .psw-trigger {
       display: inline-flex;
       align-items: center;
@@ -60,6 +82,10 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
       padding: 6px;
       min-width: 220px;
+      max-width: calc(100vw - 32px);
+      max-height: min(360px, calc(100vh - 120px));
+      overflow-y: auto;
+      overflow-x: hidden;
       z-index: 9999;
       opacity: 0;
       transform: translateY(-6px) scale(0.98);
@@ -128,6 +154,20 @@
       position: relative;
       display: inline-block;
       margin-left: 16px;
+      max-width: 100%;
+      flex-shrink: 1;
+    }
+    @media (max-width: 520px) {
+      .psw-trigger {
+        max-width: calc(100vw - 40px);
+      }
+      .psw-trigger span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .psw-menu {
+        min-width: min(220px, calc(100vw - 32px));
+      }
     }
   `;
   document.head.appendChild(style);
@@ -200,22 +240,49 @@
 
     // Wrap hero-tag and dropdown together in a flex row
     var row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;margin-bottom:20px;';
+    row.style.cssText = 'display:flex;align-items:center;margin-bottom:20px;max-width:100%;min-width:0;';
     heroTag.style.marginBottom = '0';
     heroTag.parentNode.insertBefore(row, heroTag);
     row.appendChild(heroTag);
     row.appendChild(wrap);
 
     var open = false;
+    function fitMenuToViewport() {
+      menu.style.left = '0px';
+      menu.style.right = 'auto';
+      menu.style.width = '';
+
+      var vw = document.documentElement.clientWidth || window.innerWidth;
+      var rect = menu.getBoundingClientRect();
+      var gutter = 16;
+
+      if (rect.width > vw - gutter * 2) {
+        menu.style.width = (vw - gutter * 2) + 'px';
+        rect = menu.getBoundingClientRect();
+      }
+
+      if (rect.right > vw - gutter) {
+        menu.style.left = Math.floor(vw - gutter - rect.right) + 'px';
+      }
+
+      rect = menu.getBoundingClientRect();
+      if (rect.left < gutter) {
+        menu.style.left = Math.ceil(gutter - rect.left) + 'px';
+      }
+    }
+
     function openMenu() {
       open = true;
       trigger.classList.add('open');
       menu.classList.add('open');
+      requestAnimationFrame(fitMenuToViewport);
     }
     function closeMenu() {
       open = false;
       trigger.classList.remove('open');
       menu.classList.remove('open');
+      menu.style.left = '0px';
+      menu.style.width = '';
     }
 
     trigger.addEventListener('click', function (e) {
@@ -229,6 +296,9 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeMenu();
+    });
+    window.addEventListener('resize', function () {
+      if (open) fitMenuToViewport();
     });
   }
 

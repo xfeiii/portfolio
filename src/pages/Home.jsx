@@ -287,7 +287,7 @@ export default function Home() {
                 className="tb-float"
                 tabIndex={0}
                 style={{ animationDelay: t.animDelay }}
-                onClick={() => setActiveTestimonial(activeTestimonial === i ? null : i)}
+                onClick={() => setActiveTestimonial(i)}
               >
                 <div className="tb-avatar"><img src={t.src} alt={t.alt} loading="lazy" /></div>
                 <div className="tb-card">
