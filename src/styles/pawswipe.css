@@ -1,0 +1,59 @@
+/* PawSwipe-specific styles: video player, features grid, team */
+:root{
+  --orange:#F97316;
+  --dark-orange:#EA6104;
+  --navy:#0D1B2A;
+  --text:#111;
+  --muted:#666;
+  --border:#e8e8e8;
+  --off:#f7f7f7;
+  --accent:var(--orange);
+}
+
+.player-wrap{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.18);border:1px solid var(--border);background:#000;position:relative}
+.player-wrap video{width:100%;display:block;max-height:640px;object-fit:contain;background:#000;cursor:pointer}
+.player-controls{position:relative;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.0) 100%);padding:40px 20px 16px;display:flex;flex-direction:column;gap:10px}
+.player-progress{position:relative;height:4px;background:rgba(255,255,255,.2);border-radius:4px;cursor:pointer;flex-shrink:0;transition:height .15s}
+.player-progress:hover{height:6px}
+.player-progress-fill{height:100%;background:var(--orange);border-radius:4px;width:0%;pointer-events:none;position:relative}
+.player-progress-fill::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:12px;height:12px;background:#fff;border-radius:50%;opacity:0;transition:opacity .15s;box-shadow:0 0 0 2px var(--orange)}
+.player-progress:hover .player-progress-fill::after{opacity:1}
+.player-bottom{display:flex;align-items:center;gap:12px}
+.ctrl-btn{background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;color:#fff;opacity:.85;transition:opacity .15s;flex-shrink:0}
+.ctrl-btn:hover{opacity:1}
+.player-time{font-size:13px;font-weight:500;color:rgba(255,255,255,.7);letter-spacing:.02em;white-space:nowrap}
+.player-spacer{flex:1}
+.speed-wrap{position:relative}
+.speed-btn{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);border:none;border-radius:6px;padding:5px 9px;cursor:pointer;transition:background .15s;letter-spacing:.04em}
+.speed-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+.speed-menu{display:none;position:absolute;bottom:calc(100% + 8px);right:0;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;overflow:hidden;min-width:90px;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.speed-menu.open{display:block}
+.speed-opt{display:block;width:100%;padding:9px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.7);background:none;border:none;cursor:pointer;text-align:left;transition:background .12s}
+.speed-opt:hover{background:rgba(255,255,255,.1);color:#fff}
+.speed-opt.active{color:var(--orange)}
+.big-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .2s}
+.big-play.hidden{opacity:0}
+.big-play-btn{width:72px;height:72px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.25)}
+.big-play-btn svg{margin-left:4px}
+
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px}
+.feat-card{padding:28px;border:1px solid var(--border);border-radius:16px;background:var(--off)}
+.feat-icon{width:40px;height:40px;border-radius:10px;background:var(--orange);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat-icon svg{stroke:#fff}
+.feat-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.65}
+
+.team-wrap{margin-top:32px}
+.team-img{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,.08);margin-bottom:28px}
+.team-img img{width:100%;display:block}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.team-card{padding:18px 14px;border:1px solid var(--border);border-radius:12px;text-align:center;background:var(--off)}
+.team-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.team-role{font-size:12px;color:var(--muted)}
+.team-me{border-color:var(--orange);background:#fff7f3}
+.team-me .team-name{color:var(--orange)}
+
+@media(max-width:900px){
+  .features-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:repeat(3,1fr)}
+}

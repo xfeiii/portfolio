@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stone For Gold — Fabio Koh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#B8963E;--dark:#0D0D0D;--text:#111;--muted:#666;--border:#e8e8e8;--off:#f7f7f7}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--text)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+.nav-logo{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:.02em}
+.nav-cta{background:var(--text);color:#fff;padding:8px 20px;border-radius:100px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.8}
+
+/* HERO */
+.hero{padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start;margin-bottom:56px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+.hero-tag span{width:24px;height:2px;background:var(--gold);display:inline-block}
+.hero-title{font-size:clamp(32px,4vw,52px);font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-bottom:20px}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:520px}
+.hero-meta{display:flex;flex-direction:column;gap:20px;min-width:200px}
+.hm-item{display:flex;flex-direction:column;gap:3px}
+.hm-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.hm-val{font-size:14px;font-weight:600;color:var(--text)}
+.hero-img{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.18);border:1px solid var(--border)}
+.hero-img img{width:100%;display:block}
+
+/* SECTION */
+.cs-sec{max-width:1200px;margin:0 auto;padding:80px 48px}
+.cs-sec + .cs-sec{border-top:1px solid var(--border)}
+.cs-grid{display:grid;grid-template-columns:220px 1fr;gap:64px;align-items:start}
+.cs-label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.cs-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--muted)}
+.cs-side-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
+.cs-body h3{font-size:26px;font-weight:800;letter-spacing:-.025em;margin-bottom:12px;line-height:1.3}
+.cs-body h3+h3{margin-top:40px}
+.cs-body p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;max-width:680px}
+.cs-body p:last-child{margin-bottom:0}
+
+/* IMAGES */
+.img-full{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,.08);margin-top:32px}
+.img-full img{width:100%;display:block}
+.img-grid{display:grid;gap:16px;margin-top:32px}
+.img-grid.cols2{grid-template-columns:1fr 1fr}
+.img-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.img-card{border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);position:relative;z-index:1;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;will-change:transform}
+.img-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.14)}
+.img-card img{width:100%;display:block}
+.img-cap{font-size:12px;color:var(--muted);margin-top:10px;margin-bottom:48px;text-align:center}
+
+/* TOOLS */
+.tools-row{display:flex;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+.tool-chip{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:32px}
+.stat{padding:28px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:36px;font-weight:900;letter-spacing:-.04em;color:var(--gold)}
+.stat-l{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* HIGHLIGHT QUOTE */
+.highlight{background:var(--dark);border-radius:16px;padding:36px 40px;margin-top:40px}
+.highlight p{font-size:18px;font-weight:600;line-height:1.6;margin:0;color:#fff}
+
+/* ACCENT SECTION */
+.accent-band{background:var(--dark);color:#fff;padding:80px 48px}
+.accent-inner{max-width:1200px;margin:0 auto}
+.accent-inner .cs-label::before{background:rgba(255,255,255,.3)}
+.accent-inner .cs-label{color:rgba(255,255,255,.45)}
+.accent-inner .cs-side-title{color:#fff}
+.accent-inner .cs-body h3{color:#fff}
+.accent-inner .cs-body p{color:rgba(255,255,255,.65)}
+.accent-inner .img-full{border-color:rgba(255,255,255,.1)}
+.accent-inner .img-card{border-color:rgba(255,255,255,.1)}
+.accent-inner .img-cap{color:rgba(255,255,255,.4);margin-bottom:32px}
+.accent-inner .stat-n{color:var(--gold)}
+.accent-inner .stats-row{border-color:rgba(255,255,255,.12)}
+.accent-inner .stat{border-color:rgba(255,255,255,.12)}
+.accent-inner .stat-l{color:rgba(255,255,255,.5)}
+
+/* ANIMATIONS */
+.fu{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.fu.v{opacity:1;transform:none}
+
+/* NEXT PROJECT */
+.next-proj{background:var(--off);border-top:1px solid var(--border);padding:64px 48px;text-align:center}
+.next-proj p{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:12px}
+.next-proj h2{font-size:36px;font-weight:900;letter-spacing:-.03em;margin-bottom:28px}
+.next-proj a{display:inline-flex;align-items:center;gap:10px;background:var(--text);color:#fff;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.next-proj a:hover{opacity:.8}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .hero,.cs-sec{padding:100px 20px 48px}
+  .hero-top{grid-template-columns:1fr}
+  .hero-meta{min-width:auto}
+  .cs-grid{grid-template-columns:1fr;gap:32px}
+  .stats-row{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--border)}
+  .img-grid.cols2,.img-grid.cols3{grid-template-columns:1fr}
+  .accent-band{padding:48px 20px}
+  .next-proj{padding:48px 20px}
+}
+
+</style>
+<link rel="stylesheet" href="transitions.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to portfolio
+  </a>
+  <a href="index.html" class="nav-logo">Fabio Koh</a>
+  <a href="https://wa.me/6596311820" target="_blank" class="nav-cta">Get In Touch</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <div class="fu">
+      <div class="hero-tag"><span></span> Case Study</div>
+      <h1 class="hero-title">Stone For Gold</h1>
+      <p class="hero-sub">Branding, social media, and a full Shopify website revamp for Singapore's premium crocodile leather goods brand — crafting a luxury visual identity that matches their handcrafted products.</p>
+    </div>
+    <div class="hero-meta fu" style="transition-delay:.15s">
+      <div class="hm-item">
+        <div class="hm-label">Client</div>
+        <div class="hm-val">Stone For Gold</div>
+      </div>
+      <div class="hm-item">
+        <div class="hm-label">Role</div>
+        <div class="hm-val">Brand & Web Designer</div>
+      </div>
+      <div class="hm-item">
+        <div class="hm-label">Service</div>
+        <div class="hm-val">Branding · Social · Web</div>
+      </div>
+      <div class="hm-item">
+        <div class="hm-label">Live Site</div>
+        <div class="hm-val"><a href="https://stoneforgold.com" target="_blank" style="color:var(--gold);text-decoration:none">stoneforgold.com ↗</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="fu" style="transition-delay:.25s;max-width:600px">
+    <div class="hero-img">
+      <img src="assets/sfg/hero.webp" alt="Stone For Gold">
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="cs-sec">
+  <div class="cs-grid fu">
+    <div>
+      <div class="cs-label">Overview</div>
+      <div class="cs-side-title">Elevating a luxury leather brand</div>
+    </div>
+    <div class="cs-body">
+      <h3>Who is Stone For Gold?</h3>
+      <p>Stone For Gold is a Singapore-based luxury leathercraft brand specialising in handcrafted crocodile leather goods — watch straps, key fob covers, card holders, belts, and accessories. Their products serve discerning clients who own watches from Rolex, Patek Philippe, Audemars Piguet, Zenith, and IWC, as well as car owners seeking bespoke key fob covers.</p>
+      <h3>My responsibilities</h3>
+      <p>I worked across the full brand touchpoint — designing festive and promotional social media creatives, producing campaign assets for sale events and workshops, and leading a complete Shopify website revamp. The goal was to establish a visual language that matched the craftsmanship and luxury positioning of the products themselves.</p>
+      <div class="tools-row">
+        <div class="tool-chip">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" fill="#F24E1E"/><rect x="9" y="2" width="5" height="5" rx="1" fill="#FF7262"/><rect x="2" y="9" width="5" height="5" rx="1" fill="#A259FF"/><rect x="9" y="9" width="5" height="5" rx="1" fill="#1ABCFE"/></svg>
+          Figma
+        </div>
+        <div class="tool-chip">◈ Shopify</div>
+        <div class="tool-chip">✦ Branding</div>
+        <div class="tool-chip">◎ Social Media</div>
+      </div>
+      <div class="stats-row fu" style="margin-top:40px">
+        <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l">Google Reviews</div></div>
+        <div class="stat"><div class="stat-n">5+</div><div class="stat-l">Luxury watch clients</div></div>
+        <div class="stat"><div class="stat-n">3</div><div class="stat-l">Product categories</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL MEDIA -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid fu">
+      <div>
+        <div class="cs-label">Social Media</div>
+        <div class="cs-side-title">Campaigns, sales & workshops</div>
+      </div>
+      <div class="cs-body">
+        <h3>Festive & promotional creatives</h3>
+        <p>I designed a series of social media campaigns across festive occasions and sale events — from Hari Raya and National Day promotions to mid-year tiered discounts. Each creative was crafted to stop the scroll while staying true to the brand's luxury aesthetic.</p>
+        <div class="img-grid cols3 fu" style="margin-top:28px">
+          <div class="img-card"><img src="assets/sfg/1.webp" alt="Hari Raya Puasa — $100 Off"></div>
+          <div class="img-card"><img src="assets/sfg/2.webp" alt="National Day Sale $59 Off"></div>
+          <div class="img-card"><img src="assets/sfg/3.webp" alt="Mid Year Sale"></div>
+        </div>
+        <h3 style="margin-top:48px">Workshops & membership</h3>
+        <p>Beyond product promotions, Stone For Gold runs leathercraft workshops and a members programme. I designed assets for the National Day Couple Special workshop — a 90-minute guided session — alongside membership and additional National Day sale creatives.</p>
+        <div class="img-grid cols3 fu" style="margin-top:28px">
+          <div class="img-card"><img src="assets/sfg/4.webp" alt="National Day Couple Special Workshop"></div>
+          <div class="img-card"><img src="assets/sfg/5.webp" alt="Join Our Membership"></div>
+          <div class="img-card"><img src="assets/sfg/6.webp" alt="National Day $59 Off — All Products"></div>
+        </div>
+        <div class="highlight fu">
+          <p style="color:#fff">"Every creative had to feel premium first — the discount was the detail, not the headline."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WEBSITE REVAMP -->
+<div class="cs-sec">
+  <div class="cs-grid fu">
+    <div>
+      <div class="cs-label">Web Design</div>
+      <div class="cs-side-title">Shopify website revamp</div>
+    </div>
+    <div class="cs-body">
+      <h3>Homepage & brand credibility</h3>
+      <p>The revamped homepage leads with a full-bleed product hero — a handcrafted key fob cover photographed in a luxury car interior. Immediately below, a clients bar features logos of the luxury watch brands Stone For Gold serves: Rolex, Patek Philippe, Audemars Piguet, Zenith, and IWC.</p>
+      <div class="img-full fu" style="margin-top:28px">
+        <img src="assets/sfg/1.1.png" alt="Homepage Hero — Key Fob Covers">
+      </div>
+      <div class="img-full fu">
+        <img src="assets/sfg/1.3.png" alt="Our Clients">
+      </div>
+      <div class="img-cap">Luxury brand client logos — Rolex, Patek Philippe, AP, Zenith, IWC</div>
+
+      <h3>Before / After showcase</h3>
+      <p>A Before / After section visually demonstrates the transformation Stone For Gold delivers — replacing worn or original straps with handcrafted crocodile leather. The side-by-side format is the most compelling proof of quality a luxury accessories brand can offer.</p>
+      <div class="img-full fu" style="margin-top:28px">
+        <img src="assets/sfg/1.4.png" alt="Before/After Watch Strap">
+      </div>
+      <div class="img-cap">Before / After — Audemars Piguet Royal Oak strap transformation</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS & CHECKOUT -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid fu">
+      <div>
+        <div class="cs-label">E-commerce</div>
+        <div class="cs-side-title">Reviews, products & checkout</div>
+      </div>
+      <div class="cs-body">
+        <h3>Social proof & product categories</h3>
+        <p>A "Crafted with Passion & Precision" marquee anchors the brand's promise before surfacing a Google Reviews section — 4.9★ across 80+ verified reviews. Below, three product category tiles (Watch Straps, Car Fob Covers, Card Holders) direct buyers to their relevant collections.</p>
+        <div class="img-grid cols2 fu" style="margin-top:28px">
+          <div class="img-card"><img src="assets/sfg/1.5.png" alt="Google Reviews 4.9★"></div>
+          <div class="img-card"><img src="assets/sfg/1.9.png" alt="Product Categories"></div>
+        </div>
+        <div class="img-cap">Customer reviews (4.9★) and product category navigation</div>
+
+        <h3 style="margin-top:40px">Product listing & detail pages</h3>
+        <p>The product listing page surfaces watch straps with clean photography, pricing, and sale badges — supporting quick comparison across models like Audemars Piguet, Patek Philippe, Apple Watch, and Richard Mille. The product detail page provides full specifications: leather type, edge dye, colour options, and a rich description built for high-consideration purchases.</p>
+        <div class="img-grid cols2 fu" style="margin-top:28px">
+          <div class="img-card"><img src="assets/sfg/1.6.png" alt="Product Listing Grid — Key Fob Covers"></div>
+          <div class="img-card"><img src="assets/sfg/1.7.png" alt="Product Detail — Nissan GT-R Togo Fob Cover"></div>
+        </div>
+
+        <h3 style="margin-top:40px">Streamlined checkout</h3>
+        <p>The Shopify checkout is clean and distraction-free — contact, delivery method, and shipping details on the left, with a clear order summary on the right. The single-page flow reduces drop-off and matches the premium experience customers expect from the brand.</p>
+        <div class="img-full fu" style="margin-top:28px">
+          <img src="assets/sfg/1.8.png" alt="Checkout Page">
+        </div>
+        <div class="img-cap">Shopify checkout — streamlined contact, delivery, and order summary</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-proj">
+  <p>Next Case Study</p>
+  <h2>MyPassion App</h2>
+  <a href="mypassion-app.html">
+    View Project
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('v'); obs.unobserve(e.target); } });
+}, {threshold:0.08});
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+</script>
+<script src="viewer.js"></script>
+<script src="proj-switch.js"></script>
+<script src="transitions.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAS — Fabio Koh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#C8102E;--navy:#0D1B2A;--text:#111;--muted:#666;--border:#e8e8e8;--off:#f7f7f7}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;-webkit-font-smoothing:antialiased}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--text)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+.nav-logo{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:.02em}
+.nav-cta{background:var(--text);color:#fff;padding:8px 20px;border-radius:100px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.8}
+.hero{padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start;margin-bottom:56px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+.hero-tag span{width:24px;height:2px;background:var(--blue);display:inline-block}
+.hero-title{font-size:clamp(32px,4vw,52px);font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-bottom:20px}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:520px}
+.hero-meta{display:flex;flex-direction:column;gap:20px;min-width:200px}
+.hm-item{display:flex;flex-direction:column;gap:3px}
+.hm-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.hm-val{font-size:14px;font-weight:600;color:var(--text)}
+.ph{background:var(--off);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#bbb;text-transform:uppercase;letter-spacing:.1em}
+.hero-img{width:100%;min-height:380px}
+.img-full{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,.08);margin-top:32px;min-height:280px}
+.img-grid{display:grid;gap:16px;margin-top:32px}
+.img-grid.cols2{grid-template-columns:1fr 1fr}
+.img-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.img-card{border-radius:12px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);min-height:200px}
+.img-cap{font-size:12px;color:var(--muted);margin-top:10px;margin-bottom:48px;text-align:center}
+.cs-sec{max-width:1200px;margin:0 auto;padding:80px 48px}
+.cs-sec + .cs-sec{border-top:1px solid var(--border)}
+.cs-grid{display:grid;grid-template-columns:220px 1fr;gap:64px;align-items:start}
+.cs-label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.cs-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--muted)}
+.cs-side-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
+.cs-body h3{font-size:26px;font-weight:800;letter-spacing:-.025em;margin-bottom:12px;line-height:1.3}
+.cs-body h3+h3{margin-top:40px}
+.cs-body p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;max-width:680px}
+.cs-body p:last-child{margin-bottom:0}
+.accent-band{background:var(--navy);color:#fff;padding:80px 48px}
+.accent-inner{max-width:1200px;margin:0 auto}
+.accent-inner .cs-label::before{background:rgba(255,255,255,.4)}
+.accent-inner .cs-label{color:rgba(255,255,255,.5)}
+.accent-inner .cs-side-title{color:#fff}
+.accent-inner .cs-body h3{color:#fff}
+.accent-inner .cs-body p{color:rgba(255,255,255,.6)}
+.accent-inner .ph{background:#1a2535;border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.2)}
+.highlight{background:var(--blue);border-radius:16px;padding:36px 40px;margin-top:40px}
+.highlight p{font-size:18px;font-weight:600;line-height:1.6;margin:0;color:#fff}
+.fu{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.fu.v{opacity:1;transform:none}
+.next-proj{background:var(--off);border-top:1px solid var(--border);padding:64px 48px;text-align:center}
+.next-proj p{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:12px}
+.next-proj h2{font-size:36px;font-weight:900;letter-spacing:-.03em;margin-bottom:28px}
+.next-proj a{display:inline-flex;align-items:center;gap:10px;background:var(--text);color:#fff;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.next-proj a:hover{opacity:.8}
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .hero,.cs-sec{padding:100px 20px 48px}
+  .hero-top{grid-template-columns:1fr}
+  .hero-meta{min-width:auto}
+  .cs-grid{grid-template-columns:1fr;gap:32px}
+  .img-grid.cols2,.img-grid.cols3{grid-template-columns:1fr}
+  .accent-band{padding:48px 20px}
+  .next-proj{padding:48px 20px}
+}
+</style>
+<link rel="stylesheet" href="transitions.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to portfolio
+  </a>
+  <a href="index.html" class="nav-logo">Fabio Koh</a>
+  <a href="https://wa.me/6596311820" target="_blank" class="nav-cta">Get In Touch</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-top">
+    <div class="fu">
+      <div class="hero-tag"><span></span> In Progress</div>
+      <h1 class="hero-title">Monetary Authority<br>of Singapore</h1>
+      <p class="hero-sub">Ongoing UX/UI work at the Monetary Authority of Singapore — supporting digital service design for clearer, more accessible government experiences.</p>
+    </div>
+    <div class="hero-meta fu" style="transition-delay:.15s">
+      <div class="hm-item"><div class="hm-label">Client</div><div class="hm-val">MAS Singapore</div></div>
+      <div class="hm-item"><div class="hm-label">Role</div><div class="hm-val">UX/UI Intern</div></div>
+      <div class="hm-item"><div class="hm-label">Service</div><div class="hm-val">UX/UI · Government</div></div>
+      <div class="hm-item"><div class="hm-label">Status</div><div class="hm-val">In Progress</div></div>
+    </div>
+  </div>
+  <div class="hero-img ph fu" style="transition-delay:.25s">Hero Image Placeholder</div>
+</div>
+
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">Overview</div>
+      <div class="cs-side-title fu">Supporting government financial services through design</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>The Challenge</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. MAS digital portals involve complex regulatory workflows used by financial institutions and the public. The ongoing work focuses on understanding where users may need clearer navigation, guidance, and feedback.</p>
+      <p>The current goal is to support workflow reviews, identify friction points, and contribute to design improvements with a focus on clarity, accessibility, and trust — hallmarks of effective government UX.</p>
+      <h3>My Role</h3>
+      <p>As a UX/UI intern, I am supporting research, journey mapping, wireframing, prototyping, and UI exploration across web and responsive breakpoints while working with stakeholders, developers, and policy teams throughout the process.</p>
+      <div class="img-full ph">Overview Screen Placeholder</div>
+    </div>
+  </div>
+</div>
+
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">Research</div>
+      <div class="cs-side-title fu">Understanding users and uncovering pain points</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>User Research &amp; Discovery</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Research and discovery activities are being used to understand how financial professionals, compliance officers, and public users interact with MAS digital services. Early focus areas include navigation clarity, form complexity, and feedback during submission flows.</p>
+      <p>Heuristic review work is helping surface usability considerations across the existing portal — particularly around error messaging, information hierarchy, and mobile responsiveness.</p>
+      <div class="img-grid cols2">
+        <div class="img-card ph">Research Finding 1</div>
+        <div class="img-card ph">Research Finding 2</div>
+      </div>
+      <p class="img-cap">User research synthesis and affinity mapping</p>
+      <h3>Journey Mapping</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Journey mapping is being used to explore key user paths for primary personas such as compliance officers, retail investors, and first-time applicants. These working maps continue to inform design priorities as the internship progresses.</p>
+      <div class="img-full ph">Journey Map Placeholder</div>
+    </div>
+  </div>
+</div>
+
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">Design</div>
+      <div class="cs-side-title fu">Wireframes, design system &amp; high-fidelity UI</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>Information Architecture</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Information architecture exploration is focused on making portal content more task-oriented — organising information around what users are trying to accomplish while respecting MAS internal structures and requirements.</p>
+      <div class="img-full ph">IA / Sitemap Placeholder</div>
+      <h3>Wireframes &amp; Prototyping</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Low-fidelity wireframes are being explored for key screens and reviewed through ongoing feedback loops. Insights continue to be folded into design iterations before any direction is treated as confirmed.</p>
+      <div class="img-grid cols2">
+        <div class="img-card ph">Wireframe 1</div>
+        <div class="img-card ph">Wireframe 2</div>
+      </div>
+      <p class="img-cap">Lo-fi wireframes — homepage and submission flow</p>
+      <h3>Design System</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Design system work is ongoing, with attention to WCAG 2.1 AA accessibility standards, a restrained colour palette aligned to Singapore national identity, and reusable components in Figma.</p>
+      <div class="img-grid cols3">
+        <div class="img-card ph">Colours</div>
+        <div class="img-card ph">Typography</div>
+        <div class="img-card ph">Components</div>
+      </div>
+      <p class="img-cap">Design system foundations — colour, type, and components</p>
+    </div>
+  </div>
+</div>
+
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid">
+      <div>
+        <div class="cs-label">In Progress</div>
+        <div class="cs-side-title">Current UI direction &amp; key flows</div>
+      </div>
+      <div class="cs-body fu">
+        <h3>Portal Homepage</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Current homepage explorations look at how common tasks can be presented in a clearer, more scannable layout. Persistent search, quick-access tiles, and contextual alerts are being considered to help users find the right service more efficiently.</p>
+        <div class="img-full ph">Homepage UI Placeholder</div>
+        <h3>Submission Flow</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. The regulatory submission flow is being explored with a step-by-step wizard pattern, real-time validation, clear progress indicators, and save-and-resume considerations to support a smoother experience.</p>
+        <div class="img-grid cols2">
+          <div class="img-card ph">Step 1 - 2</div>
+          <div class="img-card ph">Step 3 - 4</div>
+        </div>
+        <p class="img-cap">Redesigned submission flow — step by step</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">In Progress</div>
+      <div class="cs-side-title fu">Current focus and next steps</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>Work in Progress</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This work is still ongoing as part of my MAS internship. Any impact, usability findings, or stakeholder outcomes will only be represented once they are confirmed and appropriate to share.</p>
+      <div class="highlight">
+        <p>"Lorem ipsum dolor sit amet — designing for government means every decision carries real-world weight. Getting it right matters."</p>
+      </div>
+      <div class="img-full ph" style="margin-top:40px">In Progress Placeholder</div>
+    </div>
+  </div>
+</div>
+
+<div class="next-proj">
+  <p>Next Case Study</p>
+  <h2>Blacksmith KYC</h2>
+  <a href="blacksmith-kyc.html">
+    View Project
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+setTimeout(() => { document.querySelectorAll('.fu:not(.v)').forEach(el => el.classList.add('v')); }, 150);
+</script>
+<script src="viewer.js"></script>
+<script src="proj-switch.js"></script>
+<script src="transitions.js"></script>
+</body>
+</html>

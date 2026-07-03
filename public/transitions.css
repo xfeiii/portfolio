@@ -1,0 +1,14 @@
+/* Page transition — fade + lift in on load */
+body{
+  animation: pageIn .5s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes pageIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+/* Exit state applied by JS */
+body.page-exit{
+  opacity:0;
+  transition:opacity .3s ease;
+  pointer-events:none;
+}

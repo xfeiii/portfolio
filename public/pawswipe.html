@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PawSwipe — Fabio Koh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --orange:#F97316;
+  --dark-orange:#EA6104;
+  --navy:#0D1B2A;
+  --text:#111;
+  --muted:#666;
+  --border:#e8e8e8;
+  --off:#f7f7f7;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--text)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+.nav-logo{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:.02em}
+.nav-cta{background:var(--text);color:#fff;padding:8px 20px;border-radius:100px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.8}
+
+/* HERO */
+.hero{padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start;margin-bottom:56px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+.hero-tag span{width:24px;height:2px;background:var(--orange);display:inline-block}
+.hero-title{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:20px}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:520px}
+.hero-meta{display:flex;flex-direction:column;gap:20px;min-width:200px}
+.hm-item{display:flex;flex-direction:column;gap:3px}
+.hm-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.hm-val{font-size:14px;font-weight:600;color:var(--text)}
+
+/* VIDEO PLAYER */
+.player-wrap{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.18);border:1px solid var(--border);background:#000;position:relative}
+.player-wrap video{width:100%;display:block;max-height:640px;object-fit:contain;background:#000;cursor:pointer}
+.player-controls{position:relative;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.0) 100%);padding:40px 20px 16px;display:flex;flex-direction:column;gap:10px}
+.player-progress{position:relative;height:4px;background:rgba(255,255,255,.2);border-radius:4px;cursor:pointer;flex-shrink:0;transition:height .15s}
+.player-progress:hover{height:6px}
+.player-progress-fill{height:100%;background:var(--orange);border-radius:4px;width:0%;pointer-events:none;position:relative}
+.player-progress-fill::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:12px;height:12px;background:#fff;border-radius:50%;opacity:0;transition:opacity .15s;box-shadow:0 0 0 2px var(--orange)}
+.player-progress:hover .player-progress-fill::after{opacity:1}
+.player-bottom{display:flex;align-items:center;gap:12px}
+.ctrl-btn{background:none;border:none;cursor:pointer;padding:6px;display:flex;align-items:center;color:#fff;opacity:.85;transition:opacity .15s;flex-shrink:0}
+.ctrl-btn:hover{opacity:1}
+.player-time{font-size:13px;font-weight:500;color:rgba(255,255,255,.7);letter-spacing:.02em;white-space:nowrap}
+.player-spacer{flex:1}
+.speed-wrap{position:relative}
+.speed-btn{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);background:rgba(255,255,255,.12);border:none;border-radius:6px;padding:5px 9px;cursor:pointer;transition:background .15s;letter-spacing:.04em}
+.speed-btn:hover{background:rgba(255,255,255,.22);color:#fff}
+.speed-menu{display:none;position:absolute;bottom:calc(100% + 8px);right:0;background:#1a1a1a;border:1px solid rgba(255,255,255,.12);border-radius:10px;overflow:hidden;min-width:90px;z-index:10;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.speed-menu.open{display:block}
+.speed-opt{display:block;width:100%;padding:9px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.7);background:none;border:none;cursor:pointer;text-align:left;transition:background .12s}
+.speed-opt:hover{background:rgba(255,255,255,.1);color:#fff}
+.speed-opt.active{color:var(--orange)}
+.big-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .2s}
+.big-play.hidden{opacity:0}
+.big-play-btn{width:72px;height:72px;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.25)}
+.big-play-btn svg{margin-left:4px}
+
+/* SECTION */
+.cs-sec{max-width:1200px;margin:0 auto;padding:80px 48px}
+.cs-sec + .cs-sec{border-top:1px solid var(--border)}
+.cs-grid{display:grid;grid-template-columns:220px 1fr;gap:64px;align-items:start}
+.cs-label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.cs-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--muted)}
+.cs-side-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
+.cs-body h3{font-size:26px;font-weight:800;letter-spacing:-.025em;margin-bottom:12px;line-height:1.3}
+.cs-body h3+h3{margin-top:40px}
+.cs-body p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:16px;max-width:680px}
+.cs-body p:last-child{margin-bottom:0}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px}
+.feat-card{padding:28px;border:1px solid var(--border);border-radius:16px;background:var(--off)}
+.feat-icon{width:40px;height:40px;border-radius:10px;background:var(--orange);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.feat-icon svg{stroke:#fff}
+.feat-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* IMAGES */
+.img-full{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,.08);margin-top:32px}
+.img-full img{width:100%;display:block}
+.img-grid{display:grid;gap:16px;margin-top:32px}
+.img-grid.cols2{grid-template-columns:1fr 1fr}
+.img-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.img-grid.cols4{grid-template-columns:repeat(4,1fr)}
+.img-card{border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);position:relative;z-index:1;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;will-change:transform}
+.img-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.14)}
+.img-card img{width:100%;display:block}
+.img-cap{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
+
+/* ACCENT BAND */
+.accent-band{background:var(--navy);color:#fff;padding:80px 48px}
+.accent-inner{max-width:1200px;margin:0 auto}
+.accent-inner .cs-label{color:rgba(255,255,255,.4)}
+.accent-inner .cs-label::before{background:rgba(255,255,255,.3)}
+.accent-inner .cs-side-title{color:#fff}
+.accent-inner .cs-body h3{color:#fff}
+.accent-inner .cs-body p{color:rgba(255,255,255,.6)}
+.accent-inner .img-full{border-color:rgba(255,255,255,.08)}
+.accent-inner .img-card{border-color:rgba(255,255,255,.08)}
+
+/* HIGHLIGHT */
+.highlight{background:var(--orange);border-radius:16px;padding:36px 40px;margin-top:40px}
+.highlight p{font-size:18px;font-weight:700;line-height:1.6;color:#fff;margin:0}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:32px}
+.stat{padding:28px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:36px;font-weight:900;letter-spacing:-.04em;color:var(--orange)}
+.stat-l{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* TEAM */
+.team-wrap{margin-top:32px}
+.team-img{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,.08);margin-bottom:28px}
+.team-img img{width:100%;display:block}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.team-card{padding:18px 14px;border:1px solid var(--border);border-radius:12px;text-align:center;background:var(--off)}
+.team-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.team-role{font-size:12px;color:var(--muted)}
+.team-me{border-color:var(--orange);background:#fff7f3}
+.team-me .team-name{color:var(--orange)}
+
+/* ANIMATIONS */
+.fu{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.fu.v{opacity:1;transform:none}
+
+/* NEXT */
+.next-proj{background:var(--off);border-top:1px solid var(--border);padding:64px 48px;text-align:center}
+.next-proj p{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:12px}
+.next-proj h2{font-size:36px;font-weight:900;letter-spacing:-.03em;margin-bottom:28px}
+.next-proj a{display:inline-flex;align-items:center;gap:10px;background:var(--text);color:#fff;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.next-proj a:hover{opacity:.8}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .hero,.cs-sec{padding:100px 20px 48px}
+  .hero-top{grid-template-columns:1fr}
+  .hero-meta{min-width:auto}
+  .cs-grid{grid-template-columns:1fr;gap:32px}
+  .features-grid{grid-template-columns:1fr}
+  .img-grid.cols2,.img-grid.cols3,.img-grid.cols4{grid-template-columns:1fr 1fr}
+  .accent-band{padding:48px 20px}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat{border-bottom:1px solid var(--border)}
+  .team-grid{grid-template-columns:repeat(3,1fr)}
+  .next-proj{padding:48px 20px}
+}
+
+</style>
+<link rel="stylesheet" href="transitions.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to portfolio
+  </a>
+  <a href="index.html" class="nav-logo">Fabio Koh</a>
+  <a href="https://wa.me/6596311820" target="_blank" class="nav-cta">Get In Touch</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <div class="fu">
+      <div class="hero-tag"><span></span>Mobile App · Product Design</div>
+      <h1 class="hero-title">PawSwipe</h1>
+      <p class="hero-sub">Your all-in-one companion app for dog owners and walkers. PawSwipe connects dog lovers with a Tinder-inspired matching experience — swipe to find the right walker, or the perfect dog to walk.</p>
+    </div>
+    <div class="hero-meta fu">
+      <div class="hm-item">
+        <span class="hm-label">Role</span>
+        <span class="hm-val">Product Manager</span>
+      </div>
+      <div class="hm-item">
+        <span class="hm-label">Focus</span>
+        <span class="hm-val">Pet Verification Flow</span>
+      </div>
+      <div class="hm-item">
+        <span class="hm-label">Contributions</span>
+        <span class="hm-val">Lo-Fi · Hi-Fi · Style Guide</span>
+      </div>
+      <div class="hm-item">
+        <span class="hm-label">Team</span>
+        <span class="hm-val">5 Members</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO HERO -->
+  <div class="player-wrap fu" id="player-wrap">
+    <video id="pv" autoplay muted playsinline preload="auto">
+      <source src="assets/pawswipe/PawSwipe Dog Walker Match App Koh Fabio Copy.mp4" type="video/mp4">
+    </video>
+    <!-- Big play overlay -->
+    <div class="big-play" id="big-play">
+      <div class="big-play-btn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M6 4l14 8-14 8V4z"/></svg>
+      </div>
+    </div>
+    <!-- Controls -->
+    <div class="player-controls">
+      <div class="player-progress" id="pp">
+        <div class="player-progress-fill" id="ppf"></div>
+      </div>
+      <div class="player-bottom">
+        <!-- Play/Pause -->
+        <button class="ctrl-btn" id="play-btn" title="Play / Pause">
+          <svg id="play-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8V4z"/></svg>
+          <svg id="pause-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="5" y="3" width="4" height="18" rx="1"/><rect x="15" y="3" width="4" height="18" rx="1"/></svg>
+        </button>
+        <!-- Volume -->
+        <button class="ctrl-btn" id="vol-btn" title="Mute / Unmute">
+          <svg id="vol-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <svg id="mute-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        </button>
+        <!-- Time -->
+        <span class="player-time" id="pt">0:00 / 0:00</span>
+        <div class="player-spacer"></div>
+        <!-- Speed -->
+        <div class="speed-wrap">
+          <button class="speed-btn" id="speed-btn">2×</button>
+          <div class="speed-menu" id="speed-menu">
+            <button class="speed-opt" data-speed="0.5">0.5×</button>
+            <button class="speed-opt" data-speed="0.75">0.75×</button>
+            <button class="speed-opt" data-speed="1">1×</button>
+            <button class="speed-opt" data-speed="1.25">1.25×</button>
+            <button class="speed-opt" data-speed="1.5">1.5×</button>
+            <button class="speed-opt active" data-speed="2">2×</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<div class="cs-sec" style="border-top:1px solid var(--border)">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">Overview</div>
+      <div class="cs-side-title">A swipe-based matching app that connects dog owners with trusted, verified walkers.</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>What is PawSwipe?</h3>
+      <p>PawSwipe reimagines pet care discovery with an interface inspired by swipe-based matching. Dog owners can browse verified walkers, review their profiles, and book confidently — while walkers can find and accept jobs that suit their schedule.</p>
+      <p>The prototype supports three perspectives: Dog Owner, Dog Walker, and Explorer. My contribution focused on the pet verification system — a closed-community trust layer that ensures every owner and animal on the platform is authenticated before accessing bookings.</p>
+
+      <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-top:40px">
+        <div class="stat"><div class="stat-n">3</div><div class="stat-l">User Perspectives</div></div>
+        <div class="stat"><div class="stat-n">5</div><div class="stat-l">Team Members</div></div>
+        <div class="stat" style="border-right:none"><div class="stat-n">100%</div><div class="stat-l">Verified Community</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid">
+      <div>
+        <div class="cs-label">Features</div>
+        <div class="cs-side-title">What makes PawSwipe different.</div>
+      </div>
+      <div class="fu">
+        <div class="features-grid">
+          <div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)">
+            <div class="feat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="feat-title" style="color:#fff">Convenient & Fast</div>
+            <div class="feat-desc" style="color:rgba(255,255,255,.5)">Find trusted pet care with a simple swipe — no lengthy searches or back-and-forth messaging.</div>
+          </div>
+          <div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)">
+            <div class="feat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="feat-title" style="color:#fff">Safe & Verified</div>
+            <div class="feat-desc" style="color:rgba(255,255,255,.5)">Multi-stage verification ensures only trusted, authenticated users join the community.</div>
+          </div>
+          <div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)">
+            <div class="feat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="feat-title" style="color:#fff">Flexible & Reliable</div>
+            <div class="feat-desc" style="color:rgba(255,255,255,.5)">Choose walkers based on availability, ratings, and experience that fit your schedule.</div>
+          </div>
+          <div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)">
+            <div class="feat-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div class="feat-title" style="color:#fff">Transparent & Secure</div>
+            <div class="feat-desc" style="color:rgba(255,255,255,.5)">Secure in-app payments with no hidden fees — full visibility from booking to payout.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP SCREENSHOTS -->
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">App Walkthrough</div>
+      <div class="cs-side-title">See how PawSwipe works across the full user journey.</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>How the App Works</h3>
+      <p>From onboarding and verification through to matching, booking, and payment — every screen is designed to reduce friction and build confidence between owners and walkers.</p>
+    </div>
+  </div>
+
+  <!-- 4-up grid: Brandon 2–5 -->
+  <div class="img-grid cols4 fu" style="margin-top:40px">
+    <div class="img-card"><img src="assets/pawswipe/Brandon (2).jpg" alt="PawSwipe screen" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/Brandon (3).jpg" alt="PawSwipe screen" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/Brandon (4).jpg" alt="PawSwipe screen" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/Brandon (5).jpg" alt="PawSwipe screen" loading="lazy"></div>
+  </div>
+  <!-- 4-up grid: Brandon 6–9 -->
+  <div class="img-grid cols4 fu" style="margin-top:0">
+    <div class="img-card"><img src="assets/pawswipe/Brandon (6).jpg" alt="PawSwipe screen" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/Brandon (7).jpg" alt="PawSwipe screen" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/Brandon (8).jpg" alt="PawSwipe screen" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/Brandon (9).jpg" alt="PawSwipe screen" loading="lazy"></div>
+  </div>
+</div>
+
+<!-- LOW FIDELITY -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid">
+      <div>
+        <div class="cs-label">Low-Fidelity</div>
+        <div class="cs-side-title">Mapping the verification flow before going into pixels.</div>
+      </div>
+      <div class="cs-body fu">
+        <h3>Closed Community Design</h3>
+        <p>To create a trusted environment, I designed a closed community where dog owners must verify both themselves and their pets before accessing the platform. Owners submit proof of identity along with relevant pet documents, giving walkers greater confidence before accepting bookings.</p>
+        <p>The verification flow includes clear success and error states. Successful verification advances users to profile setup, while unsuccessful submissions provide actionable feedback so users know exactly how to re-submit.</p>
+      </div>
+    </div>
+    <div class="img-grid cols2 fu" style="margin-top:40px">
+      <div class="img-card"><img src="assets/pawswipe/lowfid1.webp" alt="Low-fidelity wireframe 1" loading="lazy"></div>
+      <div class="img-card"><img src="assets/pawswipe/lowfid2.webp" alt="Low-fidelity wireframe 2" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HIGH FIDELITY -->
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">High-Fidelity</div>
+      <div class="cs-side-title">Verification flow for a secure, trusted pet community.</div>
+    </div>
+    <div class="cs-body fu">
+      <h3>From Wireframe to Polished UI</h3>
+      <p>The high-fidelity prototype refines the verification journey into a simple, guided experience. Users upload proof of identity (IC or Passport) then submit pet documents such as a Dog Identification Certificate and vaccination records.</p>
+      <p>Animated feedback screens communicate progress throughout: successful verification unlocks profile setup, while errors provide clear guidance for document resubmission — strengthening trust while encouraging responsible pet ownership.</p>
+    </div>
+  </div>
+
+  <div class="img-grid cols2 fu" style="margin-top:40px">
+    <div class="img-card"><img src="assets/pawswipe/high fid.webp" alt="High-fidelity — identity verification" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/highfid 2.webp" alt="High-fidelity — pet documents" loading="lazy"></div>
+  </div>
+  <div class="img-grid cols2 fu" style="margin-top:0">
+    <div class="img-card"><img src="assets/pawswipe/high fid 3.webp" alt="High-fidelity — verification result" loading="lazy"></div>
+    <div class="img-card"><img src="assets/pawswipe/highfid4.webp" alt="High-fidelity — dog profile setup" loading="lazy"></div>
+  </div>
+
+  <div class="highlight fu">
+    <p>Every verification screen is built to communicate progress and build trust — ensuring dog owners and walkers feel safe from the very first tap.</p>
+  </div>
+</div>
+
+<!-- STYLE GUIDE -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid">
+      <div>
+        <div class="cs-label">Style Guide</div>
+        <div class="cs-side-title">A consistent visual language across the entire application.</div>
+      </div>
+      <div class="cs-body fu">
+        <h3>Brand & Design System</h3>
+        <p>The PawSwipe style guide establishes typography, colour, iconography, and component standards to ensure a trustworthy, accessible, and cohesive experience that reinforces the product's brand identity across every screen.</p>
+      </div>
+    </div>
+    <div class="img-grid cols3 fu" style="margin-top:40px">
+      <div class="img-card"><img src="assets/pawswipe/styleguide1.webp" alt="Style guide — colours & typography" loading="lazy"></div>
+      <div class="img-card"><img src="assets/pawswipe/styleguide2.webp" alt="Style guide — components" loading="lazy"></div>
+      <div class="img-card"><img src="assets/pawswipe/styleguide3.webp" alt="Style guide — icons & assets" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM CREDITS -->
+<div class="cs-sec">
+  <div class="cs-grid">
+    <div>
+      <div class="cs-label">Team</div>
+      <div class="cs-side-title">A collaborative five-person team spanning research, design, and product.</div>
+    </div>
+    <div class="fu">
+      <div class="team-wrap">
+        <div class="team-img">
+          <img src="assets/pawswipe/team members.webp" alt="PawSwipe team" loading="lazy">
+        </div>
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-name">Brandon Lim</div>
+            <div class="team-role">UX Researcher</div>
+          </div>
+          <div class="team-card team-me">
+            <div class="team-name">Fabio Koh</div>
+            <div class="team-role">Product Manager</div>
+          </div>
+          <div class="team-card">
+            <div class="team-name">Klive Goh</div>
+            <div class="team-role">UX Researcher</div>
+          </div>
+          <div class="team-card">
+            <div class="team-name">Sebrena</div>
+            <div class="team-role">UI Designer</div>
+          </div>
+          <div class="team-card">
+            <div class="team-name">Wen Xuan</div>
+            <div class="team-role">UI Designer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEXT -->
+<div class="next-proj">
+  <p>Next Case Study</p>
+  <h2>Prudential</h2>
+  <a href="prudential.html">
+    View Project
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+<script>
+// VIDEO PLAYER
+(function(){
+  const vid=document.getElementById('pv');
+  const playBtn=document.getElementById('play-btn');
+  const playIcon=document.getElementById('play-icon');
+  const pauseIcon=document.getElementById('pause-icon');
+  const volBtn=document.getElementById('vol-btn');
+  const volIcon=document.getElementById('vol-icon');
+  const muteIcon=document.getElementById('mute-icon');
+  const ppBar=document.getElementById('pp');
+  const ppFill=document.getElementById('ppf');
+  const ptEl=document.getElementById('pt');
+  const speedBtn=document.getElementById('speed-btn');
+  const speedMenu=document.getElementById('speed-menu');
+  const bigPlay=document.getElementById('big-play');
+
+  // Default speed 2× and sync icon state for autoplay
+  vid.playbackRate=2;
+  setPlaying(!vid.paused);
+  vid.addEventListener('canplay',()=>{vid.playbackRate=2;setPlaying(!vid.paused)});
+
+  function fmt(s){
+    const m=Math.floor(s/60),sec=Math.floor(s%60);
+    return m+':'+(sec<10?'0':'')+sec;
+  }
+  function setPlaying(p){
+    playIcon.style.display=p?'none':'block';
+    pauseIcon.style.display=p?'block':'none';
+    bigPlay.classList.toggle('hidden',p);
+  }
+  function togglePlay(){vid.paused?vid.play():vid.pause()}
+
+  vid.addEventListener('play',()=>setPlaying(true));
+  vid.addEventListener('pause',()=>setPlaying(false));
+  vid.addEventListener('ended',()=>setPlaying(false));
+  playBtn.addEventListener('click',e=>{e.stopPropagation();togglePlay()});
+  vid.addEventListener('click',togglePlay);
+  bigPlay.addEventListener('click',e=>{e.stopPropagation();togglePlay()});
+
+  vid.addEventListener('timeupdate',()=>{
+    if(!vid.duration)return;
+    const pct=(vid.currentTime/vid.duration)*100;
+    ppFill.style.width=pct+'%';
+    ptEl.textContent=fmt(vid.currentTime)+' / '+fmt(vid.duration);
+  });
+  vid.addEventListener('loadedmetadata',()=>{
+    ptEl.textContent='0:00 / '+fmt(vid.duration);
+  });
+
+  // Scrub — stop propagation so click doesn't reach video toggle
+  let scrubbing=false;
+  function scrubTo(e){
+    if(!vid.duration)return;
+    const r=ppBar.getBoundingClientRect();
+    const pct=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+    vid.currentTime=pct*vid.duration;
+    ppFill.style.width=(pct*100)+'%';
+    ptEl.textContent=fmt(vid.currentTime)+' / '+fmt(vid.duration);
+  }
+  ppBar.addEventListener('mousedown',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    scrubbing=true;
+    scrubTo(e);
+  });
+  window.addEventListener('mousemove',e=>{if(scrubbing)scrubTo(e)});
+  window.addEventListener('mouseup',()=>{scrubbing=false});
+
+  // Volume / mute
+  volBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    vid.muted=!vid.muted;
+    volIcon.style.display=vid.muted?'none':'block';
+    muteIcon.style.display=vid.muted?'block':'none';
+  });
+
+  // Speed
+  speedBtn.addEventListener('click',e=>{e.stopPropagation();speedMenu.classList.toggle('open')});
+  document.addEventListener('click',()=>speedMenu.classList.remove('open'));
+  speedMenu.querySelectorAll('.speed-opt').forEach(opt=>{
+    opt.addEventListener('click',e=>{
+      e.stopPropagation();
+      const s=parseFloat(opt.dataset.speed);
+      vid.playbackRate=s;
+      speedBtn.textContent=s+'×';
+      speedMenu.querySelectorAll('.speed-opt').forEach(o=>o.classList.remove('active'));
+      opt.classList.add('active');
+      speedMenu.classList.remove('open');
+    });
+  });
+})();
+
+// INTERSECTION OBSERVER
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}});
+},{threshold:0.07});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+</script>
+<script src="viewer.js"></script>
+<script src="proj-switch.js"></script>
+<script src="transitions.js"></script>
+</body>
+</html>

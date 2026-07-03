@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blacksmith KYC — Fabio Koh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--blue:#1890FF;--navy:#0D1B2A;--text:#111;--muted:#666;--border:#e8e8e8;--off:#f7f7f7}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-back:hover{color:var(--text)}
+.nav-back svg{transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+.nav-logo{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:.02em}
+.nav-cta{background:var(--text);color:#fff;padding:8px 20px;border-radius:100px;font-size:13px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.8}
+
+/* HERO */
+.hero{padding:120px 48px 80px;max-width:1200px;margin:0 auto}
+.hero-top{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:start;margin-bottom:56px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:20px}
+.hero-tag span{width:24px;height:2px;background:var(--blue);display:inline-block}
+.hero-title{font-size:clamp(32px,4vw,52px);font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-bottom:20px;white-space:nowrap}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:520px}
+.hero-meta{display:flex;flex-direction:column;gap:20px;min-width:200px}
+.hm-item{display:flex;flex-direction:column;gap:3px}
+.hm-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.hm-val{font-size:14px;font-weight:600;color:var(--text)}
+.hero-img{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.12);border:1px solid var(--border)}
+.hero-img img{width:100%;display:block}
+
+/* SECTION */
+.cs-sec{max-width:1200px;margin:0 auto;padding:80px 48px}
+.cs-sec + .cs-sec{border-top:1px solid var(--border)}
+.cs-grid{display:grid;grid-template-columns:220px 1fr;gap:64px;align-items:start}
+.cs-label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.cs-label::before{content:'';display:block;width:28px;height:1.5px;background:var(--muted)}
+.cs-side-title{font-size:15px;font-weight:700;color:var(--text);line-height:1.4}
+.cs-body h3{font-size:26px;font-weight:800;letter-spacing:-.025em;margin-bottom:12px;line-height:1.3}
+.cs-body h3 + h3{margin-top:40px}
+.cs-body p{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:20px;max-width:680px}
+.cs-body p:last-child{margin-bottom:0}
+
+/* IMAGES */
+.img-full{width:100%;border-radius:14px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,.08);margin-top:32px}
+.img-full img{width:100%;display:block}
+.img-grid{display:grid;gap:16px;margin-top:32px}
+.img-grid.cols2{grid-template-columns:1fr 1fr}
+.img-grid.cols3{grid-template-columns:1fr 1fr 1fr}
+.img-card{border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.06);position:relative;z-index:1;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease;will-change:transform}
+.img-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.14)}
+.img-card img{width:100%;display:block}
+.img-cap{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
+
+/* TOOLS */
+.tools-row{display:flex;align-items:center;gap:20px;margin-top:24px;flex-wrap:wrap}
+.tool-chip{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:500}
+.tool-chip img{height:18px;width:auto;object-fit:contain}
+
+/* DESIGN SYSTEM GRID */
+.ds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.ds-card{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.ds-card img{width:100%;display:block;object-fit:cover}
+.ds-card-label{font-size:12px;font-weight:600;color:var(--muted);padding:10px 14px;border-top:1px solid var(--border);background:#fff}
+
+/* ACCENT SECTION */
+.accent-band{background:var(--navy);color:#fff;padding:80px 48px}
+.accent-inner{max-width:1200px;margin:0 auto}
+.accent-inner .cs-label::before{background:rgba(255,255,255,.4)}
+.accent-inner .cs-label{color:rgba(255,255,255,.5)}
+.accent-inner .cs-side-title{color:#fff}
+.accent-inner .cs-body h3{color:#fff}
+.accent-inner .cs-body p{color:rgba(255,255,255,.6)}
+.accent-inner .img-full{border-color:rgba(255,255,255,.1)}
+.accent-inner .img-card{border-color:rgba(255,255,255,.1)}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:32px}
+.stat{padding:28px;text-align:center;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{font-size:36px;font-weight:900;letter-spacing:-.04em;color:var(--blue)}
+.stat-l{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* HIGHLIGHT QUOTE */
+.highlight{background:var(--blue);border-radius:16px;padding:36px 40px;margin-top:40px}
+.highlight p{font-size:18px;font-weight:600;line-height:1.6;margin:0;color:#fff}
+
+/* ANIMATIONS */
+.fu{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.fu.v{opacity:1;transform:none}
+
+/* SPACING FIXES */
+.img-cap{font-size:12px;color:var(--muted);margin-top:10px;margin-bottom:48px;text-align:center}
+.cs-body h3 + p{margin-top:12px}
+
+/* NEXT PROJECT */
+.next-proj{background:var(--off);border-top:1px solid var(--border);padding:64px 48px;text-align:center}
+.next-proj p{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:12px}
+.next-proj h2{font-size:36px;font-weight:900;letter-spacing:-.03em;margin-bottom:28px}
+.next-proj a{display:inline-flex;align-items:center;gap:10px;background:var(--text);color:#fff;padding:14px 28px;border-radius:100px;font-size:15px;font-weight:600;text-decoration:none;transition:opacity .2s}
+.next-proj a:hover{opacity:.8}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .hero,.cs-sec{padding:100px 20px 48px}
+  .hero-top{grid-template-columns:1fr}
+  .hero-meta{min-width:auto}
+  .cs-grid{grid-template-columns:1fr;gap:32px}
+  .ds-grid{grid-template-columns:1fr 1fr}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat{border-bottom:1px solid var(--border)}
+  .img-grid.cols2,.img-grid.cols3{grid-template-columns:1fr}
+  .accent-band{padding:48px 20px}
+  .next-proj{padding:48px 20px}
+}
+
+</style>
+<link rel="stylesheet" href="transitions.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to portfolio
+  </a>
+  <a href="index.html" class="nav-logo">Fabio Koh</a>
+  <a href="https://wa.me/6596311820" target="_blank" class="nav-cta">Get In Touch</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <div class="fu">
+      <div class="hero-tag"><span></span> Case Study</div>
+      <h1 class="hero-title">Blacksmith KYC</h1>
+      <p class="hero-sub">Designing a comprehensive design system and SaaS platform for Blacksmith's Know Your Customer product — used by global banking institutions including ING Bank.</p>
+    </div>
+    <div class="hero-meta fu" style="transition-delay:.15s">
+      <div class="hm-item">
+        <div class="hm-label">Client</div>
+        <div class="hm-val">ING Bank</div>
+      </div>
+      <div class="hm-item">
+        <div class="hm-label">Role</div>
+        <div class="hm-val">UX/UI Designer</div>
+      </div>
+      <div class="hm-item">
+        <div class="hm-label">Service</div>
+        <div class="hm-val">SaaS · Branding</div>
+      </div>
+      <div class="hm-item">
+        <div class="hm-label">Duration</div>
+        <div class="hm-val">Sep – Nov 2020</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-img fu" style="transition-delay:.25s">
+    <img src="assets/bkyc/4.webp" alt="Blacksmith KYC Introduction">
+  </div>
+</div>
+
+<!-- INTRODUCTION -->
+<div class="cs-sec">
+  <div class="cs-grid fu">
+    <div>
+      <div class="cs-label">Overview</div>
+      <div class="cs-side-title">Understanding the challenge</div>
+    </div>
+    <div class="cs-body">
+      <h3>What is Blacksmith KYC?</h3>
+      <p>Blacksmith KYC is a SaaS platform that helps global banks streamline their Know Your Customer compliance process. As part of the initiative, I was embedded in the product team to help establish a consistent brand identity across all channels — website, presentations, and marketing materials.</p>
+      <h3>My responsibilities</h3>
+      <p>Beyond branding, I assisted in preparing and testing the KYC processes within Blacksmith's portal. This involved conducting usability testing, identifying friction points in the user journey, and creating structured improvement suggestions to elevate the overall experience for banking compliance officers.</p>
+      <div class="tools-row">
+        <div class="tool-chip"><img src="assets/bkyc/figma.webp" alt="Figma"> Figma</div>
+        <div class="tool-chip"><img src="assets/bkyc/invision.webp" alt="InVision"> InVision</div>
+        <div class="tool-chip">✦ Design System</div>
+        <div class="tool-chip">⬡ UX Research</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DESIGN STRUCTURE -->
+<div class="cs-sec">
+  <div class="cs-grid fu">
+    <div>
+      <div class="cs-label">Foundation</div>
+      <div class="cs-side-title">Design structure & system</div>
+    </div>
+    <div class="cs-body">
+      <h3>Setting up Figma</h3>
+      <p>I established the Figma workspace to ensure designs were well organised, complete, and up to date. This created a shared foundation for the team to collaborate, view, and edit screens together — following the Blacksmith Design System's principles of User First, Consistency, and Efficiency.</p>
+      <div class="img-full fu">
+        <img src="assets/bkyc/5.webp" alt="Blacksmith Design System">
+      </div>
+      <div class="img-cap">Blacksmith Design System — structured in Figma for cross-team collaboration</div>
+      <h3>Color & typography guidelines</h3>
+      <p>Blacksmith's visual identity is anchored by a primary blue (#1890FF) with a neutral palette for UI surfaces. Typography and color guidelines ensure accessibility and brand consistency across the platform at every touchpoint.</p>
+      <div class="img-grid cols2 fu" style="margin-top:24px">
+        <div class="img-card"><img src="assets/bkyc/color.webp" alt="Color Guidelines"></div>
+        <div class="img-card"><img src="assets/bkyc/typography.webp" alt="Typography Guidelines"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPONENTS -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid fu">
+      <div>
+        <div class="cs-label">Components</div>
+        <div class="cs-side-title">Building the component library</div>
+      </div>
+      <div class="cs-body">
+        <h3>Reusable UI components</h3>
+        <p>I designed and documented a comprehensive component library covering all core interaction patterns — buttons, form inputs, select dropdowns, accordions, banners, and toast notifications. Each component was designed with usage guidelines and variant states.</p>
+        <div class="img-grid cols2 fu" style="margin-top:24px">
+          <div class="img-card"><img src="assets/bkyc/buttons.webp" alt="Buttons"></div>
+          <div class="img-card"><img src="assets/bkyc/textfields.webp" alt="Text Fields"></div>
+        </div>
+        <div class="img-full" style="margin-top:16px">
+          <img src="assets/bkyc/6.webp" alt="Components — Buttons & Select">
+        </div>
+        <div class="img-grid cols2 fu" style="margin-top:16px">
+          <div class="img-card"><img src="assets/bkyc/7.webp" alt="Text Input"></div>
+          <div class="img-card"><img src="assets/bkyc/8.webp" alt="Accordion"></div>
+        </div>
+        <div class="img-full" style="margin-top:16px">
+          <img src="assets/bkyc/9.webp" alt="Banner & Toast">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLATFORM DESIGN -->
+<div class="cs-sec">
+  <div class="cs-grid fu">
+    <div>
+      <div class="cs-label">Platform</div>
+      <div class="cs-side-title">Designing Blacksmith's core product</div>
+    </div>
+    <div class="cs-body">
+      <h3>Policy Home, CDD Requests & CDD File</h3>
+      <p>The core product revolves around three key screens: the Policy Home where banking compliance officers manage KYC policies, the CDD Requests flow for searching clients by BIC code, and the Customer Due Diligence File that aggregates risk data and evidence into a downloadable report.</p>
+      <div class="img-full fu">
+        <img src="assets/bkyc/10.webp" alt="Blacksmith Platform Design">
+      </div>
+      <div class="stats-row fu">
+        <div class="stat"><div class="stat-n">3</div><div class="stat-l">Key Insights</div></div>
+        <div class="stat"><div class="stat-n">231</div><div class="stat-l">Evidence Sources</div></div>
+        <div class="stat"><div class="stat-n">4</div><div class="stat-l">Data Sources</div></div>
+        <div class="stat"><div class="stat-n">11</div><div class="stat-l">Evidence Fields</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD RESET FLOW -->
+<div class="cs-sec">
+  <div class="cs-grid fu">
+    <div>
+      <div class="cs-label">UX Flow</div>
+      <div class="cs-side-title">Password reset — step by step</div>
+    </div>
+    <div class="cs-body">
+      <h3>Designing a real-time validation flow</h3>
+      <p>One of the key usability improvements was redesigning the password reset experience. I introduced real-time criteria validation with a dynamic strength indicator — guiding users step by step from Very Weak through to Strong before enabling the reset action.</p>
+      <div class="img-full fu">
+        <img src="assets/bkyc/11.webp" alt="Password Reset Steps 1-2">
+      </div>
+      <div class="img-grid cols2 fu" style="margin-top:16px">
+        <div class="img-card"><img src="assets/bkyc/12.webp" alt="Steps 3-4"></div>
+        <div class="img-card"><img src="assets/bkyc/13.webp" alt="Steps 5-6"></div>
+      </div>
+      <div class="highlight fu">
+        <p>"Real-time feedback removes ambiguity — users know exactly what's missing before they even try to submit."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CDD FILE -->
+<div class="accent-band">
+  <div class="accent-inner">
+    <div class="cs-grid fu">
+      <div>
+        <div class="cs-label">Deliverable</div>
+        <div class="cs-side-title">Customer Due Diligence File</div>
+      </div>
+      <div class="cs-body">
+        <h3>Synthesising risk into one document</h3>
+        <p>The Customer Due Diligence File is the platform's core output — a structured report surfacing client risk across Country Risk, Special Risk / Red Flags, and Product Risk. It pulls from trusted data sources (KYC Registry, Bankers Almanac, Bureau van Dijk, ACRA) and gives compliance officers clear actions and missing evidence flags.</p>
+        <div class="img-full fu">
+          <img src="assets/bkyc/14.webp" alt="Customer Due Diligence File">
+        </div>
+        <div class="img-full" style="margin-top:16px">
+          <img src="assets/bkyc/15.webp" alt="CDD File & Platform UI">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEXT PROJECT -->
+<div class="next-proj">
+  <p>Next Case Study</p>
+  <h2>PeakTop Engineering</h2>
+  <a href="peaktop-engineering.html">
+    View Project
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+
+<script>
+// Scroll animations
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('v'); obs.unobserve(e.target); } });
+}, {threshold:0.08});
+document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+</script>
+<script src="viewer.js"></script>
+<script src="proj-switch.js"></script>
+<script src="transitions.js"></script>
+</body>
+</html>
