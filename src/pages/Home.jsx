@@ -428,9 +428,9 @@ export default function Home() {
 
       {/* FAQ */}
       <div className="sec" id="faq">
-        <h2 className="fqh fu">Your questions<br />answered.</h2>
+        <h2 className="fqh">Your questions<br />answered.</h2>
         {faqs.map((f, i) => (
-          <div key={i} className={`fi fu${openFaq === i ? ' open' : ''}`} style={i > 0 ? { transitionDelay: `${i * 0.05}s` } : {}}>
+          <div key={i} className={`fi${openFaq === i ? ' open' : ''}`}>
             <div className="fq-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
               <span><span className="fn">{f.n}</span>{f.q}</span>
               <span className="ftog">+</span>

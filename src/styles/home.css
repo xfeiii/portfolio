@@ -192,6 +192,7 @@ nav.scrolled{background:rgba(255,255,255,.97);box-shadow:0 2px 28px rgba(0,0,0,.
 /* FAQ */
 .fqh{font-size:clamp(26px,3.5vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-bottom:40px}
 .fi{border-bottom:1px solid var(--border)}
+.home-page .fi{opacity:1;transform:none;visibility:visible}
 .fq-q{display:flex;align-items:center;justify-content:space-between;padding:22px 0;cursor:pointer;font-size:15px;font-weight:500;gap:16px}
 .fn{color:var(--muted);font-size:13px;margin-right:8px;flex-shrink:0}
 .ftog{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:transform .25s,background .2s,border-color .2s}
